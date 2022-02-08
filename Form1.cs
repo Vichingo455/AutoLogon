@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace AutoLogon
 {
@@ -93,7 +94,7 @@ namespace AutoLogon
 
         private void label1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("AutoLogon\nVersion 1.0\nMaded by Vichingo455\nCopyright (C) 2022 Vichingo455. All rights reserved.","About",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            about();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -109,6 +110,48 @@ namespace AutoLogon
         private void label3_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Here you have to type your password","AutoLogon - Help Guide");
+        }
+
+        private void checkStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegistryKey rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon");
+            string autologon = (string)rk.GetValue("AutoAdminLogon");
+            if (autologon == "1")
+            {
+                MessageBox.Show("AutoLogon is enabled","AutoLogon",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("AutoLogon is disabled", "AutoLogon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void sourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/Vichingo455/AutoLogon");
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            about();
+        }
+        public void about()
+        {
+            MessageBox.Show("AutoLogon\nVersion 1.0\nMaded by Vichingo455\nCopyright (C) 2022 Vichingo455. All rights reserved.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void resetFieldsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string userName = Environment.UserName;
+            groupBox1.Enabled = false;
+            textBox1.Text = userName;
+            textBox2.Text = string.Empty;
+            checkBox1.Checked = false;
+        }
+
+        private void giveAFeedbackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/Vichingo455/AutoLogon/discussions/new?category=feedback");
         }
     }
 }
